@@ -15,7 +15,7 @@ import javax.annotation.Generated;
 
 
 /**
- * A class modelling foreign key relationships between tables of the <code>jooq_test</code>
+ * A class modelling foreign key relationships between tables of the <code>jooq_test</code> 
  * schema
  */
 @Generated(
@@ -32,15 +32,13 @@ public class Keys {
   // IDENTITY definitions
   // -------------------------------------------------------------------------
 
-  public static final Identity<IfsUsersTblRecord, Integer> IDENTITY_IFS_USERS_TBL =
-        Identities0.IDENTITY_IFS_USERS_TBL;
+  public static final Identity<IfsUsersTblRecord, Integer> IDENTITY_IFS_USERS_TBL = Identities0.IDENTITY_IFS_USERS_TBL;
 
   // -------------------------------------------------------------------------
   // UNIQUE and PRIMARY KEY definitions
   // -------------------------------------------------------------------------
 
-  public static final UniqueKey<IfsUsersTblRecord> KEY_IFS_USERS_TBL_PRIMARY =
-        UniqueKeys0.KEY_IFS_USERS_TBL_PRIMARY;
+  public static final UniqueKey<IfsUsersTblRecord> KEY_IFS_USERS_TBL_PRIMARY = UniqueKeys0.KEY_IFS_USERS_TBL_PRIMARY;
 
   // -------------------------------------------------------------------------
   // FOREIGN KEY definitions
@@ -57,7 +55,6 @@ public class Keys {
   }
 
   private static class UniqueKeys0 extends AbstractKeys {
-    public static final UniqueKey<IfsUsersTblRecord> KEY_IFS_USERS_TBL_PRIMARY = createUniqueKey
-          (IfsUsersTbl.IFS_USERS_TBL, IfsUsersTbl.IFS_USERS_TBL.ID);
+    public static final UniqueKey<IfsUsersTblRecord> KEY_IFS_USERS_TBL_PRIMARY = createUniqueKey(IfsUsersTbl.IFS_USERS_TBL, IfsUsersTbl.IFS_USERS_TBL.ID);
   }
 }

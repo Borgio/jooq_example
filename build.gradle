@@ -100,7 +100,7 @@ sourceSets {
 	}
 }
 
-compileJava.dependsOn("jooq")
+//compileJava.dependsOn("jooq")
 
 clean {
 	delete("generated")

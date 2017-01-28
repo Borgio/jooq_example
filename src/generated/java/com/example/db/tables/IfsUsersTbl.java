@@ -70,8 +70,7 @@ public class IfsUsersTbl extends TableImpl<IfsUsersTblRecord> {
    * The column <code>jooq_test.IFS_USERS_TBL.UPDATED_DATE</code>.
    */
   public final TableField<IfsUsersTblRecord, Timestamp> UPDATED_DATE = createField
-        ("UPDATED_DATE", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true),
-              this, "");
+        ("UPDATED_DATE", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
 
   /**
    * Create a <code>jooq_test.IFS_USERS_TBL</code> table reference

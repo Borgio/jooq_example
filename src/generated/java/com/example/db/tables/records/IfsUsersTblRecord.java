@@ -335,7 +335,7 @@ public class IfsUsersTblRecord extends UpdatableRecordImpl<IfsUsersTblRecord> im
     value3(value3);
     value4(value4);
     value5(value5);
-    value6(value6);
-    return this;
-  }
+		value6(value6);
+		return this;
+	}
 }
