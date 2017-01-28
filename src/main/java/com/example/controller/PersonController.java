@@ -15,5 +15,7 @@ public interface PersonController {
 
   ResponseEntity<?> insert(final PersonVO personVO);
 
+  ResponseEntity<?> createSpecificPerson(final Integer id, final PersonVO personVO);
+
   ResponseEntity<?> update(final Integer id, final PersonVO personVO);
 }

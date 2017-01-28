@@ -46,12 +46,25 @@ public class PersonControllerImpl implements PersonController {
   }
 
   @Override
-  @RequestMapping(value = "/person", method = RequestMethod.POST)
+  @RequestMapping(value = "/person", method = {RequestMethod.POST, RequestMethod.PUT})
   public ResponseEntity<PersonVO> insert(@RequestBody final PersonVO personVO) {
     LOGGER.info("PersonVO: {}", personVO);
     final Optional<PersonVO> personVOOptional = userService.insert(personVO);
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
           .badRequest().build());
+  }
+
+  @Override
+  @RequestMapping(value = "/person/{id}", method = RequestMethod.POST)
+  public ResponseEntity<?> createSpecificPerson(@PathVariable("id")
+                                                final Integer id,
+                                                @RequestBody
+                                                final PersonVO personVO) {
+    LOGGER.info("id: {} PersonVO: {}", id, personVO);
+    personVO.setId(id);
+    final Optional<PersonVO> personVOOptional = userService.insert(personVO);
+    return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
+          .notFound().build());
   }
 
   @Override
@@ -64,6 +77,6 @@ public class PersonControllerImpl implements PersonController {
     personVO.setId(id);
     final Optional<PersonVO> personVOOptional = userService.update(personVO);
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
-          .badRequest().build());
+          .notFound().build());
   }
 }
