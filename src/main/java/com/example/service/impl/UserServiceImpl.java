@@ -1,18 +1,23 @@
 package com.example.service.impl;
 
+import com.example.db.Tables;
 import com.example.db.tables.daos.IfsUsersTblDao;
 import com.example.db.tables.pojos.IfsUsersTbl;
 import com.example.model.PersonVO;
 import com.example.service.UserService;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional(rollbackFor = Exception.class)
+  @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
   public Optional<PersonVO> insert(final PersonVO personVO) {
     LOGGER.info("PersonVO: {}", personVO);
     final Record result = dslContext.insertInto(IFS_USERS_TBL)
@@ -90,5 +95,21 @@ public class UserServiceImpl implements UserService {
     personVO.setUpdatedDate(result.getValue(IFS_USERS_TBL.UPDATED_DATE));
     LOGGER.debug("UPDATED PersonVO: {}", personVO);
     return Optional.of(personVO);
+  }
+
+  @Override
+  @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+  public Optional<PersonVO> update(final PersonVO personVO) {
+    LOGGER.info("PersonVO: {}", personVO);
+    final int rows = dslContext.update(Tables.IFS_USERS_TBL)
+          .set(IFS_USERS_TBL.FIRST_NAME, personVO.getFirstName())
+          .set(IFS_USERS_TBL.LAST_NAME, personVO.getLastName())
+          .set(IFS_USERS_TBL.EMAIL_ADDRESS, personVO.getEmailAddress())
+          .set(IFS_USERS_TBL.UPDATED_DATE, new Timestamp(new DateTime(DateTimeZone.UTC)
+                .getMillis()))
+          .where(IFS_USERS_TBL.ID.eq(personVO.getId()))
+          .execute();
+    LOGGER.info("UPDATED rows: {} PersonVO: {}", rows, personVO);
+    return findById(personVO.getId());
   }
 }

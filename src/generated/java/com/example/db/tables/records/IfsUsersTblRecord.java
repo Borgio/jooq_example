@@ -333,8 +333,8 @@ public class IfsUsersTblRecord extends UpdatableRecordImpl<IfsUsersTblRecord> im
     value1(value1);
     value2(value2);
     value3(value3);
-    value4(value4);
-    value5(value5);
+		value4(value4);
+		value5(value5);
 		value6(value6);
 		return this;
 	}

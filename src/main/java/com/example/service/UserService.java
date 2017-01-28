@@ -15,4 +15,6 @@ public interface UserService {
   Optional<PersonVO> findById(final Integer id);
 
   Optional<PersonVO> insert(final PersonVO personVO);
+
+  Optional<PersonVO> update(final PersonVO personVO);
 }

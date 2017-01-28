@@ -53,4 +53,17 @@ public class PersonControllerImpl implements PersonController {
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
           .badRequest().build());
   }
+
+  @Override
+  @RequestMapping(value = "/person/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<?> update(@PathVariable("id")
+                                  final Integer id,
+                                  @RequestBody
+                                  final PersonVO personVO) {
+    LOGGER.info("id: {} PersonVO: {}", id, personVO);
+    personVO.setId(id);
+    final Optional<PersonVO> personVOOptional = userService.update(personVO);
+    return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
+          .badRequest().build());
+  }
 }

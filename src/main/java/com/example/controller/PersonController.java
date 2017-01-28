@@ -14,4 +14,6 @@ public interface PersonController {
   ResponseEntity<?> findById(final Integer id);
 
   ResponseEntity<?> insert(final PersonVO personVO);
+
+  ResponseEntity<?> update(final Integer id, final PersonVO personVO);
 }
