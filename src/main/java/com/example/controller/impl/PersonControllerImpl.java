@@ -64,7 +64,7 @@ public class PersonControllerImpl implements PersonController {
     personVO.setId(id);
     final Optional<PersonVO> personVOOptional = userService.insert(personVO);
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
-          .notFound().build());
+          .badRequest().build());
   }
 
   @Override
