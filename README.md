@@ -1,3 +1,6 @@
 Messing around with JooQ, Flyway.
 
-To run
+To run:
+```groovy
+gradle clean bootRun
+```
