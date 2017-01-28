@@ -1,0 +1,107 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.4.RELEASE'
+		jooqVersion = "3.7.4"
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jooq:jooq-codegen:${jooqVersion}")
+		classpath("mysql:mysql-connector-java:5.1.36")
+	}
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'demo'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+task jooq() {
+	delete "src/generated"
+	def writer = new StringWriter()
+	def xml = new groovy.xml.MarkupBuilder(writer)
+			.configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.7.0.xsd') {
+		jdbc() {
+			driver('com.mysql.jdbc.Driver')
+			url('jdbc:mysql://localhost:3306/jooq_test?autoReconnect=true&useFractionalSeconds=true')
+			user('root')
+			password('')
+		}
+		generator() {
+			database() {
+				inputSchema("jooq_test")
+				excludes("schema_version")
+				//includes("IFS*")
+			}
+
+			// Watch out for this caveat when using MarkupBuilder with "reserved names"
+			// - https://github.com/jOOQ/jOOQ/issues/4797
+			// - http://stackoverflow.com/a/11389034/521799
+			// - https://groups.google.com/forum/#!topic/jooq-user/wi4S9rRxk4A
+			generate([:]) {
+				pojos true
+				daos true
+			}
+			target() {
+				packageName('com.example.db')
+				directory('src/generated/java')
+			}
+		}
+	}
+// Run the code generator
+// ----------------------
+	org.jooq.util.GenerationTool.generate(
+			javax.xml.bind.JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
+	)
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile("org.springframework.boot:spring-boot-starter-jdbc")
+	compile("mysql:mysql-connector-java:5.1.36")
+	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
+	compile group: 'com.zaxxer', name: 'HikariCP', version: '2.6.0'
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.flywaydb:flyway-core')
+	compile group: 'org.jooq', name: 'jooq', version: '3.9.1'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile group: 'com.google.guava', name: 'guava', version: '21.0'
+
+}
+
+
+sourceSets {
+	main {
+		java {
+			srcDirs "src/main/java", "src/generated/java"
+		}
+	}
+
+	generated {
+		compileClasspath += main.output + test.output
+		runtimeClasspath += main.output + test.output
+		java.srcDir file('src/generated/java')
+		resources.srcDirs file('src/generated/resources')
+	}
+}
+
+compileJava.dependsOn("jooq")
+
+clean {
+	delete("generated")
+}
