@@ -1,0 +1,24 @@
+<configuration xmlns='http://www.jooq.org/xsd/jooq-codegen-3.9.0.xsd'>
+    <jdbc>
+        <driver>com.mysql.jdbc.Driver</driver>
+        <url>
+            jdbc:mysql://localhost:3306/jooq_test?autoReconnect=true&amp;useFractionalSeconds=true
+        </url>
+        <user>root</user>
+        <password></password>
+    </jdbc>
+    <generator>
+        <database>
+            <inputSchema>jooq_test</inputSchema>
+        </database>
+        <generate>
+            <pojos>true</pojos>
+            <daos>true</daos>
+        </generate>
+        <target>
+            <packageName>com.example.db</packageName>
+            <directory>src/generated/java</directory>
+            <encoding>UTF-8</encoding>
+        </target>
+    </generator>
+</configuration>

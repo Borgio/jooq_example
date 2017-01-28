@@ -1,7 +1,11 @@
+import org.jooq.util.GenerationTool
+
+import javax.xml.bind.JAXB
+
 buildscript {
 	ext {
 		springBootVersion = '1.4.4.RELEASE'
-		jooqVersion = "3.7.4"
+		jooqVersion = "3.9.0"
 	}
 	repositories {
 		mavenLocal()
@@ -34,7 +38,7 @@ task jooq() {
 	delete "src/generated"
 	def writer = new StringWriter()
 	def xml = new groovy.xml.MarkupBuilder(writer)
-			.configuration('xmlns': 'https://www.jooq.org/xsd/jooq-runtime-3.9.0.xsd') {
+			.configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.9.0.xsd') {
 		jdbc() {
 			driver('com.mysql.jdbc.Driver')
 			url('jdbc:mysql://localhost:3306/jooq_test?autoReconnect=true&useFractionalSeconds=true')
@@ -42,30 +46,28 @@ task jooq() {
 			password('')
 		}
 		generator() {
-			database() {
-				inputSchema("jooq_test")
-				excludes("schema_version")
-				//includes("IFS*")
-			}
+			//name('org.jooq.util.JavaGenerator')
 
-			// Watch out for this caveat when using MarkupBuilder with "reserved names"
-			// - https://github.com/jOOQ/jOOQ/issues/4797
-			// - http://stackoverflow.com/a/11389034/521799
-			// - https://groups.google.com/forum/#!topic/jooq-user/wi4S9rRxk4A
-			generate([:]) {
+			database() {
+				name('org.jooq.util.mysql.MySQLDatabase')
+				inputSchema('jooq_test')
+				excludes("schema_version")
+			}
+			generate() {
 				pojos true
 				daos true
 			}
 			target() {
 				packageName('com.example.db')
 				directory('src/generated/java')
+				encoding("UTF-8")
 			}
 		}
 	}
-// Run the code generator
 // ----------------------
-	org.jooq.util.GenerationTool.generate(
-			javax.xml.bind.JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
+	println writer.toString();
+	GenerationTool.generate(
+			JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
 	)
 }
 
@@ -81,8 +83,8 @@ dependencies {
 	compile group: 'org.jooq', name: 'jooq', version: '3.9.1'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile group: 'com.google.guava', name: 'guava', version: '21.0'
-	// https://mvnrepository.com/artifact/joda-time/joda-time
 	compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
+
 }
 
 
@@ -101,7 +103,7 @@ sourceSets {
 	}
 }
 
-//compileJava.dependsOn("jooq")
+compileJava.dependsOn("jooq")
 
 clean {
 	delete("generated")
