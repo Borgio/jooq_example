@@ -37,12 +37,12 @@ public class DefaultCatalog extends CatalogImpl {
    */
   public final JooqTest JOOQ_TEST = com.example.db.JooqTest.JOOQ_TEST;
 
-  /**
-   * No further instances allowed
-   */
-  private DefaultCatalog() {
-    super("");
-  }
+    /**
+     * No further instances allowed
+     */
+    private DefaultCatalog() {
+      super("");
+    }
 
   @Override
   public final List<Schema> getSchemas() {

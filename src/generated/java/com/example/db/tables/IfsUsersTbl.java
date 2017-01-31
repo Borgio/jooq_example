@@ -80,7 +80,7 @@ public class IfsUsersTbl extends TableImpl<IfsUsersTblRecord> {
      * Create a <code>jooq_test.IFS_USERS_TBL</code> table reference
      */
     public IfsUsersTbl() {
-      this("IFS_USERS_TBL", null);
+        this("IFS_USERS_TBL", null);
     }
 
   /**

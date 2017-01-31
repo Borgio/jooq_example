@@ -25,15 +25,15 @@ public class IfsUsersTbl implements Serializable {
 
     private static final long serialVersionUID = -1286954382;
 
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String emailAddress;
+  private Integer id;
+  private String firstName;
+  private String lastName;
+  private String emailAddress;
     private Timestamp createdDate;
     private Timestamp updatedDate;
 
-    public IfsUsersTbl() {
-    }
+  public IfsUsersTbl() {
+  }
 
     public IfsUsersTbl(IfsUsersTbl value) {
         this.id = value.id;
@@ -49,8 +49,8 @@ public class IfsUsersTbl implements Serializable {
           String firstName,
           String lastName,
           String emailAddress,
-        Timestamp createdDate,
-        Timestamp updatedDate
+          Timestamp createdDate,
+          Timestamp updatedDate
     ) {
         this.id = id;
         this.firstName = firstName;

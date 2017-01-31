@@ -2,14 +2,16 @@ package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import java.sql.Timestamp;
 
 /**
  * Created by cjemison on 1/28/17.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersonVO {
-  private Integer id;
+public class PersonVO extends ResourceSupport {
+  private Integer personId;
   private String firstName;
   private String lastName;
   private String emailAddress;
@@ -19,13 +21,13 @@ public class PersonVO {
   public PersonVO() {
   }
 
-  public PersonVO(final Integer id,
+  public PersonVO(final Integer personId,
                   final String firstName,
                   final String lastName,
                   final String emailAddress,
                   final Timestamp createdDate,
                   final Timestamp updatedDate) {
-    this.id = id;
+    this.personId = personId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.emailAddress = emailAddress;
@@ -33,12 +35,12 @@ public class PersonVO {
     this.updatedDate = updatedDate;
   }
 
-  public Integer getId() {
-    return id;
+  public Integer getPersonId() {
+    return personId;
   }
 
-  public void setId(final Integer id) {
-    this.id = id;
+  public void setPersonId(final Integer personId) {
+    this.personId = personId;
   }
 
   public String getFirstName() {
@@ -99,7 +101,7 @@ public class PersonVO {
   @Override
   public String toString() {
     return "PersonVO{" +
-          "id=" + id +
+          "personId=" + personId +
           ", firstName='" + firstName + '\'' +
           ", lastName='" + lastName + '\'' +
           ", emailAddress='" + emailAddress + '\'' +

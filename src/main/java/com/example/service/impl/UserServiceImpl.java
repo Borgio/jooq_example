@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
   private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
   private static final Function<IfsUsersTbl, PersonVO> function = ifsUsersTbl -> {
     PersonVO personVO = new PersonVO();
-    personVO.setId(ifsUsersTbl.getId());
+    personVO.setPersonId(ifsUsersTbl.getId());
     personVO.setFirstName(ifsUsersTbl.getFirstName());
     personVO.setLastName(ifsUsersTbl.getLastName());
     personVO.setEmailAddress(ifsUsersTbl.getEmailAddress());
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
       throw new IllegalStateException(String.format("PersonVO: %s didn't save. ", personVO));
     }
     LOGGER.debug("Result: {}", result);
-    personVO.setId(result.getValue(IFS_USERS_TBL.ID));
+    personVO.setPersonId(result.getValue(IFS_USERS_TBL.ID));
     personVO.setCreatedDate(result.getValue(IFS_USERS_TBL.CREATED_DATE));
     personVO.setUpdatedDate(result.getValue(IFS_USERS_TBL.UPDATED_DATE));
     LOGGER.debug("UPDATED PersonVO: {}", personVO);
@@ -107,9 +107,9 @@ public class UserServiceImpl implements UserService {
           .set(IFS_USERS_TBL.EMAIL_ADDRESS, personVO.getEmailAddress())
           .set(IFS_USERS_TBL.UPDATED_DATE, new Timestamp(new DateTime(DateTimeZone.UTC)
                 .getMillis()))
-          .where(IFS_USERS_TBL.ID.eq(personVO.getId()))
+          .where(IFS_USERS_TBL.ID.eq(personVO.getPersonId()))
           .execute();
     LOGGER.info("UPDATED rows: {} PersonVO: {}", rows, personVO);
-    return findById(personVO.getId());
+    return findById(personVO.getPersonId());
   }
 }

@@ -61,7 +61,7 @@ public class PersonControllerImpl implements PersonController {
                                                 @RequestBody
                                                 final PersonVO personVO) {
     LOGGER.info("id: {} PersonVO: {}", id, personVO);
-    personVO.setId(id);
+    personVO.setPersonId(id);
     final Optional<PersonVO> personVOOptional = userService.insert(personVO);
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
           .badRequest().build());
@@ -74,7 +74,7 @@ public class PersonControllerImpl implements PersonController {
                                   @RequestBody
                                   final PersonVO personVO) {
     LOGGER.info("id: {} PersonVO: {}", id, personVO);
-    personVO.setId(id);
+    personVO.setPersonId(id);
     final Optional<PersonVO> personVOOptional = userService.update(personVO);
     return personVOOptional.map(ResponseEntity::ok).orElse(ResponseEntity
           .notFound().build());
